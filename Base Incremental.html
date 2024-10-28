@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Base incremental</title>
+		<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+		
+		<!-- classes -->
+		<script src="BIGClass.js"></script>
+		
+		<!-- css -->
+		<style>
+			@font-face { font-family: dmMono; src: url('DMMono-Medium.ttf'); }
+			
+			body{
+				font-family: dmMono;
+				color: white;
+				background-color: black;
+			}
+			button{
+				background-color: #444;
+				color: #fff;
+				vertical-align: top;
+				font-family: dmMono;
+				font-size: 12px;
+			}
+			button:disabled{
+				background-color: #222;
+				color: #888;
+			}
+			
+			.pointButton{
+				background-color: #060;
+				color: #0c0;
+				border-color: #080;
+			}
+			button.pointButton:disabled{
+				background-color: #030;
+				color: #060;
+				border-color: #060;
+			}
+			
+			.baseButton{
+				background-color: #606;
+				color: #f0f;
+				border-color: #909;
+			}
+			button.baseButton:disabled{
+				background-color: #303;
+				color: #808;
+				border-color: #303;
+			}
+			
+			.logButton{
+				background-color: #fa0;
+				color: #840;
+				border-color: #fc2;
+			}
+			button.logButton:disabled{
+				background-color: #a70;
+				color: #f80;
+				border-color: #f80;
+			}
+			
+			.buyable{
+				width: 200px;
+				height: 200px;
+				font-size: 22px;
+			}
+			.upgrade{
+				width: 200px;
+				height: 100px;
+			}
+			
+			.ach{
+				width: 100px;
+				margin-bottom: -4px;
+			}
+			.achCover{
+				width: 100px;
+				height: 100px;
+				margin-bottom: -4px;
+			}
+			.tooltip{
+				position: relative;
+				display: inline-block;
+			}
+			.tooltip .tooltiptext{
+				visiblity: hidden;
+				width: 240px;
+				background-color: #222;
+				color: #fff;
+				text-align: center;
+				border-radius: 6px;
+				padding: 5px 0;
+				position: absolute;
+				z-index: 1;
+				bottom: 100%;
+				left: 50%;
+				margin-left: -120px;
+				margin-top: -4px;
+				
+				opacity: 0;
+				transition: opacity 1s;
+			}
+			.tooltip:hover .tooltiptext:not(:hover){
+				visiblity: visible;
+				opacity: 1;
+			}
+			
+			.tooltiptext{
+				font-family: dmMono;
+				font-size: 12px;
+				pointer-events: none;
+			}
+		</style>
+	</head>
+	<body id="body">
+		<!-- elements -->
+		<div id="tabButtons">
+			<button id="pointsTabButton" onclick="tab('points')" class="pointButton">Points</button>
+			<button id="baseTabButton" onclick="tab('base')" class="baseButton" hidden>Base</button>
+			<button id="achTabButton" onclick="tab('ach')">Acheivements</button>
+			<button id="optionsTabButton" onclick="tab('options')">Options</button>
+			
+			
+			<button id="endTabButton" onclick="tab('end')" class="logButton" hidden>End</button>
+		</div>
+		<div id="pointsTab">
+			<h1><span id="pointsLabel">0</span> points (Base <span id="pointsTabBaseLabel">2</span>)</h1>
+			<button id="pointsClickable" onclick="gainPoints()" class="pointButton buyable" style="float: left;">+<span id="pointGainLabel">1</span> points</button>
+			<button id="pointsBuyable1" onclick="pointsBuyable(1)" style="width: 100px; height: 200px;" class="pointButton">Increase point gain by <span id="pointsBuyableLabel">1</span>. Cost: <span id="pointsBuyableCostLabel">10</span> points</button>
+			<button id="pointsBuyable2" onclick="pointsBuyable(2)" style="width: 100px; height: 200px;" class="pointButton" hidden>Multiply point gain by <span id="pointsBuyable2Effect">2</span>. Cost: <span id="pointsBuyable2CostLabel">100</span> points</button><br>
+			<div id="galaxDiv" hidden><button id="galaxButton" onclick="galaxy()" style="width: 300px; height: 100px; font-size: 22px;" class="pointButton">Reach 2 purchases of the second buyable to galaxy.</button></div>
+			<button id="baseResetButton" onclick="baseReset()" disabled style="width: 300px; height: 100px; font-size: 22px;" class="baseButton">Reach 1e<span id="baseResetGoal">1001</span> points to change base.</button>
+		</div>
+		<div id="baseTab" hidden>
+			<h1>You are in base <span id="baseLabel">2</span>.</h1>
+			<button id="fastEnterButton" class="baseButton" onclick="fastEnter()" hidden>Enter base 2</button><br><br>
+			<button id="baseUpgrade1" class="baseButton upgrade" onclick="baseUpgrade(1)" cost="3">Unlock a second point buyable, doubling point gain per purchase. Cost: 3 base</button>
+			<button id="baseUpgrade2" class="baseButton upgrade" onclick="baseUpgrade(2)" cost="3">Unlock ipsiclickers (and gain 1). Cost: 3 base</button>
+			<button id="baseUpgrade3" class="baseButton upgrade" onclick="baseUpgrade(3)" cost="5">Unlock galaxies. Cost: 5 base</button>
+			<button id="baseUpgrade4" class="baseButton upgrade" onclick="baseUpgrade(4)" cost="7">Multiply point gain based on your best points on base 2 reset. Cost: 7 base</button>
+			<button id="baseUpgrade5" class="logButton upgrade" onclick="baseUpgrade(5)" cost="10">Beat the game. Req: 10 base</button>
+			
+			<div id="ipsiDiv" hidden>
+				<h1>You have <span id="ipsiLabel">1</span> ipsiclickers.</h1>
+				<text>Ipsiclickers are hardcapped at 60.</text><br>
+				<button id="buyIpsi" class="baseButton buyable" onclick="buyIpsiclicker()">x<span id="ipsiMultiLabel">2</span> to ipsiclickers on purchase. Cost: <span id="ipsiCostLabel">4</span> base</button><br>
+				<button id="respecIpsi" class="baseButton" onclick="respecIpsi()">respec</button>
+			</div>
+		</div>
+		<div id="achTab" hidden>
+			<br><br>
+			<text hidden>Warning: each row is centered around a specific section of the game. Once you finish that section, those achievments will lock.</text>
+			<div style="position: relative">
+				<table class="nospacing">
+					<tr>
+						<th><img onmousehover="" src="achs/ach1.png" class="ach"></th>
+						<th><img src="achs/ach2.png" class="ach"></th>
+						<th><img src="achs/ach3.png" class="ach"></th>
+						<th><img src="achs/ach4.png" class="ach"></th>
+						<th><img src="achs/ach5.png" class="ach"></th>
+						<th><img src="achs/ach6.png" class="ach"></th>
+					</tr>
+					<tr>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+					</tr>
+					<tr>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+					</tr>
+					<tr>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+					</tr>
+					<tr>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+					</tr>
+					<tr>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+					</tr>
+				</table>
+				<table style="left: 0; top: 0; position: absolute;">
+					<tr>
+						<th><div id="coverA" class="achCover tooltip" style="background-color: #00000000;"><span class="tooltiptext" style="margin-left: -60px;">Wait how does this work?:<br>Reach 10 points (in base 2)</span></div></th>
+						<th><div id="coverB" class="achCover tooltip" style="background-color: #00000000;"><span class="tooltiptext">Based:<br>Change base</span></div></th>
+						<th><div id="coverC" class="achCover tooltip" style="background-color: #00000000;"><span class="tooltiptext">Not a rip-off I swear:<br>Get a galaxy</span></div></th>
+						<th><div id="coverD" class="achCover tooltip" style="background-color: #00000000;"><span class="tooltiptext">Precision strike:<br>Reach exactly 60 ipsiclickers without going over</span></div></th>
+						<th><div id="coverE" class="achCover tooltip" style="background-color: #00000000;"><span class="tooltiptext">Haha infinity refrence:<br>Reach 1e10000000000 (Base 2) points</span></div></th>
+						<th><div id="coverF" class="achCover tooltip" style="background-color: #00000000;"><span class="tooltiptext">Do you enjoy pain?:<br>Enter base 2 from base 10</span></div></th>
+					</tr>
+					<tr>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+					</tr>
+					<tr>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+					</tr>
+					<tr>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+					</tr>
+					<tr>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+					</tr>
+					<tr>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+				</tr>
+				</table>
+				<div style="left: 700px; top: 0; position: absolute;">
+					<text>Progress to next reward:</text>
+					<progress id="achProg" value="0" max="6"></progress>
+					<text>You have <span id="hotkeyAmt">0</span> hotkeys</text><br>
+					<div id="hotkey1" hidden>
+						<text>The 1 key is assigned to</text>
+						<select id="action1" onchange="checkHotkeyMode(1)">
+							<option value="0">+ points</option>
+							<option value="1">points buyable</option>
+							<option value="2" hidden>2nd points buyable</option>
+							<option value="3" hidden>galaxy</option>
+							<option value="4">base reset</option>
+							<option value="5" hidden>ipsiclicker</option>
+							<option value="6" hidden>respec ipsi</option>
+							<option value="7" hidden>enter base 2</option>
+						</select>
+						<text>and is set to</text>
+						<select id="mode1">
+							<option id="modeSingle1" value="0">single</option>
+							<option id="modeRepeat1" value="1">repeat</option>
+							<option id="modeRapidFire1" value="2" disabled>rapid-fire</option>
+						</select>
+						<text>mode.</text>
+					</div>
+					
+					<script> //code for hotkeys
+						function checkHotkeyMode(number){
+							a=document.getElementById("action"+number).value
+							if(a == "3" || a == "4" || a == "6" || a == "7"){ //hotkeys that should only be able to activate once per key press
+								document.getElementById("mode"+number).value = "0"
+								document.getElementById("modeRepeat"+number).disabled = true
+								document.getElementById("modeRapidFire"+number).disabled = true
+							}else if(a == "0"){ //hotkeys that should only be able to repeat or be single use, but not rapid-fire
+								if(document.getElementById("mode"+number).value == "2"){
+									document.getElementById("mode"+number).value = "1"
+								}
+								document.getElementById("modeRepeat"+number).disabled = false
+								document.getElementById("modeRapidFire"+number).disabled = true
+							}else{
+								document.getElementById("modeRepeat"+number).disabled = false
+								document.getElementById("modeRapidFire"+number).disabled = false
+							}
+							
+							
+						}
+						
+					</script>
+					<p>Every 6 achievments completed will earn you a new hotkey slot. Hotkeys can be used to trigger buttons just by pressing keys on your keyboard. You can set hotkeys to many different actions, such as adding points, buying buyables, resetting, etc. (You can only set it to buttons you have unlocked, of course). Hotkeys have three different modes: Single, repeat, or rapid-fire. Single will only activate when you start pressing the button, repeat will act like how holding a key normally works (activates once, waits a short delay, and then reactivates quickly), and rapid-fire will activate every tick that the key is held down. Certain hotkey functions will force you to use a specific mode, such as changing base requiring you to use single.</p>
+					<p>(I will add mobile hotkey support in the next update, it felt unnecesarry to add it for such a small feature right now)</p>
+				</div>
+			</div>
+		</div>
+		<div id="optionsTab" hidden>
+			<br>
+			<button onclick="if(confirm('Are you sure? You will lose all of your progress, and there will be no hope of getting it back!')){localStorage.clear(); location.reload();}">HARD RESET</button>
+			<div id="winMulti" hidden><input type="checkbox" id="freex60"><text>x60 multiplier</text></div>
+		</div>
+		
+		
+		
+		
+		
+		
+		<div id="endTab" hidden>
+			You've reached the end... for now. If you've played the original version, you may know what I have in store for this game, but I wanted to release this now because it's high time I release something. Anyways, thanks for playing, you are truly based. (You can keep playing, but there is no more content for now.)
+			<br><br>
+			You have unlocked the x60 multiplier in options.
+		</div>
+		
+		
+		
+		
+		<!-- scripts -->
+		<script src="main.js"></script>
+		<script src="autosave.js"></script>
+		<script src="keybinds.js"></script>
+		
+	</body>
+</html>
