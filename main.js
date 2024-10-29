@@ -81,7 +81,7 @@ let baseUpgrades = "12345"
 let bestBase2 = 1
 
 //ipsiclicker stuff because it feels like it should be on its own
-let ipsiAmount = new BIG(1,0)
+let ipsiAmount = new BIG(0,0)
 let ipsiKey = -1
 let ipsiCost = 2
 let currentTime = new Date().getTime()
@@ -401,7 +401,9 @@ function buyIpsiclicker(){
 function reloadIpsi(){
 	clearInterval(ipsiKey)
 	currentTime = new Date().getTime()
-	ipsiKey = setInterval(ipsiclick,1000/ipsiAmount.string())
+	if(ipsiAmount.gte(0)){
+		ipsiKey = setInterval(ipsiclick,1000/ipsiAmount.string())
+	}
 }
 function ipsiclick(){
 	let timeGap = new Date().getTime() - currentTime //timeGap is like delta, should be 1000/60 but could be off due to lag
@@ -410,6 +412,12 @@ function ipsiclick(){
 	prodMulti = Math.round(timeGap/goalGap)
 	
 	points = points.add(multiplyThru(multipliers["points"]).multiply(prodMulti))
+	
+	if(curBase == 2){
+		if(points.gte(new BIG(1,1024,2))){
+			completeAch("E")
+		}
+	}
 }
 function respecIpsi(){
 	if(!confirm("Are you sure? Your ipsiclickers will be set back to 1 and your base will not be refunded. This is only useful if you want to try for better multipliers.")){
@@ -459,7 +467,19 @@ function devSkip(){
 	
 }
 
+function exportSave(){
+	autosave()
+	navigator.clipboard.writeText(JSON.stringify(localStorage))
+}
 
+function importSave(saveText){
+	saveText = JSON.parse(saveText)
+	localStorage.clear()
+	for(key in saveText){
+		localStorage.setItem(key, saveText[key])
+	}
+	location.reload()
+}
 
 
 

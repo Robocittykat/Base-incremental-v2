@@ -107,6 +107,10 @@
 				visiblity: visible;
 				opacity: 1;
 			}
+			.tooltip:active .tooltiptext:not(:active){
+				visiblity: visible;
+				opacity: 1;
+			}
 			
 			.tooltiptext{
 				font-family: dmMono;
@@ -308,7 +312,10 @@
 		</div>
 		<div id="optionsTab" hidden>
 			<br>
-			<button onclick="if(confirm('Are you sure? You will lose all of your progress, and there will be no hope of getting it back!')){localStorage.clear(); location.reload();}">HARD RESET</button>
+			<button onclick="if(confirm('Are you sure? You will lose all of your progress, and there will be no hope of getting it back!')){localStorage.clear(); location.reload();}">HARD RESET</button><br>
+			<button onclick="exportSave()">EXPORT SAVE (to clipboard)</button><br>
+			<button onclick="importSave(inputSave.value)">IMPORT SAVE</button>
+			<input type="text" value="" id="inputSave">
 			<div id="winMulti" hidden><input type="checkbox" id="freex60"><text>x60 multiplier</text></div>
 		</div>
 		
