@@ -341,6 +341,7 @@ function baseUpgrade(number){
 			break
 		case 2:
 			ipsiDiv.hidden = false
+			ipsiAmount = new BIG(1,0)
 			reloadIpsi()
 			action1.options[5].hidden = false
 			action1.options[6].hidden = false
