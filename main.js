@@ -452,6 +452,25 @@ function fastEnter(){
 }
 
 
+function logUpgrade(number){
+	if(number != 1){
+		if(!document.getElementById("log"+Math.floor(number / 10)).classList.contains("logButton")){
+			return
+		}
+	}
+	switch(number){
+		case 1:
+			break
+		
+	}
+	document.getElementById("log"+number).classList.add("logButton")
+	if(number != 1){
+		document.getElementById("to"+number).style.stroke = "#840"
+	}
+	
+}
+
+
 function devSkip(){
 	curBase = 11
 	baseReset()
