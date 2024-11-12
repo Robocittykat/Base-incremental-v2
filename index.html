@@ -162,45 +162,45 @@
 		<div id="logTab" hidden>
 			<div style="position: relative; z-index: 1;">
 				<svg style="position: absolute; z-index: -1; inset: 0;" width="1125" height="1050">
-					<line x1=900px y1=300px x2=600px y2=75px stroke="white" stroke-width="10"/>
-					<line x1=300px y1=300px x2=600px y2=75px stroke="white" stroke-width="10"/>
+					<line x1=900px y1=300px x2=600px y2=75px stroke="white" stroke-width="10" id="to10"/>
+					<line x1=300px y1=300px x2=600px y2=75px stroke="white" stroke-width="10" id="to11"/>
 					
 					
-					<line x1=150px y1=525px x2=300px y2=300px stroke="white" stroke-width="10"/>
-					<line x1=450px y1=525px x2=300px y2=300px stroke="white" stroke-width="10"/>
+					<line x1=150px y1=525px x2=300px y2=300px stroke="white" stroke-width="10" id="to100"/>
+					<line x1=450px y1=525px x2=300px y2=300px stroke="white" stroke-width="10" id="to101"/>
 					
-					<line x1=750px y1=525px x2=900px y2=300px stroke="white" stroke-width="10"/>
-					<line x1=1050px y1=525px x2=900px y2=300px stroke="white" stroke-width="10"/>
+					<line x1=750px y1=525px x2=900px y2=300px stroke="white" stroke-width="10" id="to110"/>
+					<line x1=1050px y1=525px x2=900px y2=300px stroke="white" stroke-width="10" id="to111"/>
 					
 					
-					<line x1=75px y1=750px x2=150px y2=525px stroke="white" stroke-width="10"/>
-					<line x1=225px y1=750px x2=150px y2=525px stroke="white" stroke-width="10"/>
+					<line x1=75px y1=750px x2=150px y2=525px stroke="white" stroke-width="10" id="to1000"/>
+					<line x1=225px y1=750px x2=150px y2=525px stroke="white" stroke-width="10" id="to1001"/>
 					
-					<line x1=375px y1=750px x2=450px y2=525px stroke="white" stroke-width="10"/>
-					<line x1=525px y1=750px x2=450px y2=525px stroke="white" stroke-width="10"/>
+					<line x1=375px y1=750px x2=450px y2=525px stroke="white" stroke-width="10" id="to1010"/>
+					<line x1=525px y1=750px x2=450px y2=525px stroke="white" stroke-width="10" id="to1011"/>
 					
-					<line x1=675px y1=750px x2=750px y2=525px stroke="white" stroke-width="10"/>
-					<line x1=825px y1=750px x2=750px y2=525px stroke="white" stroke-width="10"/>
+					<line x1=675px y1=750px x2=750px y2=525px stroke="white" stroke-width="10" id="to1100"/>
+					<line x1=825px y1=750px x2=750px y2=525px stroke="white" stroke-width="10" id="to1101"/>
 					
-					<line x1=975px y1=750px x2=1050px y2=525px stroke="white" stroke-width="10"/>
-					<line x1=1125px y1=750px x2=1050px y2=525px stroke="white" stroke-width="10"/>
+					<line x1=975px y1=750px x2=1050px y2=525px stroke="white" stroke-width="10" id="to1110"/>
+					<line x1=1125px y1=750px x2=1050px y2=525px stroke="white" stroke-width="10" id="to1111"/>
 				</svg>
-				<button id="log1000" class="treeUpgrade" style="left: 0px; top: 675px; position: absolute;" onclick="logUpgrade(1000)">1000<br><br>The points buyable provides a 1.1x multiplier per buy.<br><br>  </button>
-				<button id="log1001" class="treeUpgrade" style="left: 150px; top: 675px; position: absolute;" onclick="logUpgrade(1001)" title="Basically, it's effect is squared.">1001<br><br>The points buyable's base effect applies twice.<br><br>  </button>
+				<button id="log1000" class="treeUpgrade" style="left: 0px; top: 675px; position: absolute;" onclick="logUpgrade(1000)">1000<br><br>The first points buyable's effect starts at +2 and increases by 1 per buy.<br><br>  </button>
+				<button id="log1001" class="treeUpgrade" style="left: 150px; top: 675px; position: absolute;" onclick="logUpgrade(1001)">1001<br><br>Double galaxies' effect.<br><br>  </button>
 				<button id="log1010" class="treeUpgrade" style="left: 300px; top: 675px; position: absolute;" onclick="logUpgrade(1010)" title="Multi is only active if upgrade is bought, but you keep purchases on respec.">1010<br><br>Unlock the log point doubler<br><br>  </button>
-				<button id="log1011" class="treeUpgrade" style="left: 450px; top: 675px; position: absolute;" onclick="logUpgrade(1011)" title="^base/360 + 1">1011<br><br>Raise log point gain based on your base, but only in base <span id="optimalBase">0</span> or lower (base scales w/ log points).<br><br>  </button>
-				<button id="log1100" class="treeUpgrade" style="left: 600px; top: 675px; position: absolute;" onclick="logUpgrade(1100)">1100<br><br>Multiply ipsiclicker gain by the sqrt of your best base.<br><br>  </button>
-				<button id="log1101" class="treeUpgrade" style="left: 750px; top: 675px; position: absolute;" onclick="logUpgrade(1101)">1101<br><br>You can buy ipsiclickers using log points, you gain an amount equal to the sqrt of your log points before buying.<br><br>  </button>
+				<button id="log1011" class="treeUpgrade" style="left: 450px; top: 675px; position: absolute;" onclick="logUpgrade(1011)" title="^(1+(gal*0.1))">1011<br><br>Raise log points based on galaxies.<br><br>  </button>
+				<button id="log1100" class="treeUpgrade" style="left: 600px; top: 675px; position: absolute;" onclick="logUpgrade(1100)">1100<br><br>On ipsiclicker respec, you start with more based on best base.<br><br>  </button>
+				<button id="log1101" class="treeUpgrade" style="left: 750px; top: 675px; position: absolute;" onclick="logUpgrade(1101)">1101<br><br>You can buy ipsiclickers using log points<br><br>  </button>
 				<button id="log1110" class="treeUpgrade" style="left: 900px; top: 675px; position: absolute;" onclick="logUpgrade(1110)">1110<br><br>Unlock points upgrade ipsibuyer.<br><br>  </button>
-				<button id="log1111" class="treeUpgrade" style="left: 1050px; top: 675px; position: absolute;" onclick="logUpgrade(1111)">1111<br><br>Passively gain the sqrt of your pending log points, the frequency is based off of your ipsiclickers/1000.<br><br>  </button>
+				<button id="log1111" class="treeUpgrade" style="left: 1050px; top: 675px; position: absolute;" onclick="logUpgrade(1111)">1111<br><br>Unlock an ipsiclicker ipsibuyer<br><br>  </button>
 				
-				<button id="log100" class="treeUpgrade" style="left: 75px; top: 450px; position: absolute;">100<br><br>The points buyable's cost becomes a requirement.<br><br>  </button>
+				<button id="log100" class="treeUpgrade" style="left: 75px; top: 450px; position: absolute;">100<br><br>The points buyable's cost becomes a requirement and you can buy max.<br><br>  </button>
 				<button id="log101" class="treeUpgrade" style="left: 375px; top: 450px; position: absolute;">101<br><br>Auto re-enter completed bases on reset.<br><input type="checkbox" id="101enabled" checked></input><br>  </button>
 				<button id="log110" class="treeUpgrade" style="left: 675px; top: 450px; position: absolute;">110<br><br>The ipsiclicker cost becomes a requirement.<br><br>  </button>
-				<button id="log111" class="treeUpgrade" style="left: 975px; top: 450px; position: absolute;">111<br><br>Ipsibuy log branches.<br><br>  </button>
+				<button id="log111" class="treeUpgrade" style="left: 975px; top: 450px; position: absolute;">111<br><br>Passively gain the sqrt of pending log points, with frequency based on ipsiclickers.<br><br>  </button>
 				
 				<button id="log10" class="treeUpgrade" style="left: 225px; top: 225px; position: absolute;">10<br><br>You can freely change your base, up to your best base.<br><br>  </button>
-				<button id="log11" class="treeUpgrade" style="left: 825px; top: 225px; position: absolute;" title="The multiplied portion of ipsiclickers is sqrted beyond 100">11<br><br>You can surpass 100 ipsiclickers, beyond 100 they provide a multiplier instead and are heavily softcapped.<br><br>  </button>
+				<button id="log11" class="treeUpgrade" style="left: 825px; top: 225px; position: absolute;">11<br><br>You can surpass 60 ipsiclickers, beyond 60 they provide a multiplier instead and are heavily softcapped.<br><br>  </button>
 				
 				<button id="log1" class="treeUpgrade" style="left: 525px; top: 0px; position: absolute;">1<br><br>Raise log points to the sqrt of the base you're exiting.<br><br>  </button>
 			</div>
