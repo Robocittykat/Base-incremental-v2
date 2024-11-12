@@ -453,27 +453,53 @@ function fastEnter(){
 
 
 function logUpgrade(number){
-	upgrade = document.getElementById("log"+number)
+	upgrade = document.getElementById("log"+number) //gets the html element of the upgrade in question
 	if(upgrade.classList.contains("logButton")){
-		return
+		return //if it's already bought, cancels
 	}
 	if(number != 1){
 		if(!document.getElementById("log"+Math.floor(number / 10)).classList.contains("logButton")){
-			return
+			return //if the previous upgrade hasn't been bought, cancels. Doesn't count for upgrade 1
 		}
 	}
 	
-	switch(number){
+	switch(number){ //apply the effects of the upgrade
 		case 1:
 			break
-		
+		case 10:
+			break
+		case 11:
+			break
+		case 100:
+			break
+		case 101:
+			break
+		case 110:
+			break
+		case 111:
+			break
+		case 1000:
+			break
+		case 1001:
+			break
+		case 1010:
+			break
+		case 1011:
+			break
+		case 1100:
+			break
+		case 1101:
+			break
+		case 1110:
+			break
+		case 1111:
+			break
 	}
 	
-	upgrade.classList.add("logButton")
+	upgrade.classList.add("logButton") //mark that the upgrade is active
 	if(number != 1){
-		document.getElementById("to"+number).style.stroke = "#840"
+		document.getElementById("to"+number).style.stroke = "#840" //set the color of the line, no line for upgrade 1
 	}
-	console.log("whoopdeedoo")
 }
 
 
