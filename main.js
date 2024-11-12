@@ -491,4 +491,4 @@ function importSave(saveText){
 
 
 //devSkip()
-//localStorage.clear()
+localStorage.clear()
