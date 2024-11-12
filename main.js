@@ -453,21 +453,27 @@ function fastEnter(){
 
 
 function logUpgrade(number){
+	upgrade = document.getElementById("log"+number)
+	if(upgrade.classList.contains("logButton")){
+		return
+	}
 	if(number != 1){
 		if(!document.getElementById("log"+Math.floor(number / 10)).classList.contains("logButton")){
 			return
 		}
 	}
+	
 	switch(number){
 		case 1:
 			break
 		
 	}
-	document.getElementById("log"+number).classList.add("logButton")
+	
+	upgrade.classList.add("logButton")
 	if(number != 1){
 		document.getElementById("to"+number).style.stroke = "#840"
 	}
-	
+	console.log("whoopdeedoo")
 }
 
 
