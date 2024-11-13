@@ -1,4 +1,4 @@
-
+localStorage.clear()
 
 //Lookie here, I don't want any of you retrobates screaming at me for my messy code, I don't care that I'm using var instead of let, I don't care that I only sometimes use semicolons, I don't care that the game is very easily hackable. Let me live my life. (I'm gonna turn this into a news ticker, aren't I?)
 //(above is outdated)
@@ -94,7 +94,10 @@ let numHotkeys = 0
 
 
 //new variables (haven't been added to localStorage. There should be none here at the time of release, please notify the developer if you happen to see any.)
-
+let logPoints = new BIG(0,0)
+let unspentBranches = 0
+let totalBranches = 0
+let logUnlocked = false
 
 
 //this one doesn't count
@@ -187,12 +190,22 @@ function tick(){
 		pointsBuyable2.disabled = true
 	}
 	
-	if(points.power >= 9){
-		baseResetButton.disabled = false
-		baseResetButton.innerHTML = "Change base. (" + curBase + " ➔ " + (curBase + 1) + ")"
+	if(logUnlocked){
+		if(points.power >= 9){
+			baseResetButton.disabled = false
+			baseResetButton.innerHTML = "Change base for "+calculateLogPoints()+" log points."
+		}else{
+			baseResetButton.disabled = true
+			baseResetButton.innerHTML = "Reach 1e"+base(9,curBase)+" points to change base."
+		}
 	}else{
-		baseResetButton.disabled = true
-		baseResetButton.innerHTML = "Reach 1e"+base(9,curBase)+" points to change base."
+		if(points.power >= 9){
+			baseResetButton.disabled = false
+			baseResetButton.innerHTML = "Change base. (" + curBase + " ➔ " + (curBase + 1) + ")"
+		}else{
+			baseResetButton.disabled = true
+			baseResetButton.innerHTML = "Reach 1e"+base(9,curBase)+" points to change base."
+		}
 	}
 	
 	for(i of baseUpgrades){
@@ -227,7 +240,7 @@ function tick(){
 }setInterval(tick,50/3)
 
 function tab(tab){
-	var tabs = [document.getElementById("baseTab"),document.getElementById("pointsTab"),document.getElementById("endTab"),document.getElementById("achTab"),document.getElementById("optionsTab")]
+	var tabs = [document.getElementById("baseTab"),document.getElementById("pointsTab"),document.getElementById("endTab"),document.getElementById("achTab"),document.getElementById("optionsTab"),document.getElementById("logTab")]
 	
 	for(let i of tabs){
 		i.hidden = true
@@ -309,6 +322,9 @@ function galaxy(){
 function baseReset(){
 	
 	if(curBase == 2){
+		if(points.lte(1)){
+			points = new BIG(2)
+		}
 		let doubleLog = Math.log2(points.log())
 		bestBase2 = Math.max(doubleLog,bestBase2)
 	}
@@ -356,15 +372,28 @@ function baseUpgrade(number){
 			action1.options[7].hidden = false
 			break
 		case 5:
-			endTabButton.hidden = false
+			logTabButton.hidden = false
+			baseResetButton.classList.remove("baseButton")
+			baseResetButton.classList.add("logButton")
+			logUnlocked = true
+			completeAch("A",false)
+			completeAch("B",false)
+			completeAch("C",false)
+			completeAch("D",false)
+			completeAch("E",false)
+			completeAch("F",false)
+			currentAch = "GHIJKL"
+			multipliers['points']['logMulti'] = (a)=> a.multiply(2)
+			
+			/*endTabButton.hidden = false
 			tab("end")
 			winMulti.hidden = false
-			multipliers['points']['free60'] = (a)=> a.multiply(60**freex60.checked)
+			multipliers['points']['free60'] = (a)=> a.multiply(60**freex60.checked)*/
 			break
 	}
+	upgrade = document.getElementById("baseUpgrade"+number)
+	baseUpgrades = baseUpgrades.replace(number,'')
 	if(number != 5){ //BU5 does not decrease base
-		upgrade = document.getElementById("baseUpgrade"+number)
-		baseUpgrades = baseUpgrades.replace(number,'')
 		curBase -= (upgrade.getAttribute("cost")-2)
 		pointsBuyable1Level = 0
 		pointsBuyable2Level = 0
@@ -451,6 +480,9 @@ function fastEnter(){
 	galaxyCost = 6
 }
 
+function calculateLogPoints(){
+	return 0
+}
 
 function logUpgrade(number){
 	upgrade = document.getElementById("log"+number) //gets the html element of the upgrade in question
@@ -510,12 +542,16 @@ function devSkip(){
 	baseUpgrade(2)
 	baseUpgrade(3)
 	baseUpgrade(4)
-	curBase = 6
+	curBase = 7
 	buyIpsiclicker()
 	curBase = 6
 	buyIpsiclicker()
 	curBase = 6
 	buyIpsiclicker()
+	curBase = 7
+	buyIpsiclicker()
+	curBase = 9
+	baseReset()
 	
 }
 
@@ -541,5 +577,5 @@ function importSave(saveText){
 
 
 
-//devSkip()
+devSkip()
 localStorage.clear()
