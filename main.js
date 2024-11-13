@@ -57,8 +57,8 @@ function base(value,toBase,showDec = 'auto'){
 	}
 }
 
-function multiplyThru(list){
-	let toReturn = new BIG(1)
+function multiplyThru(list,initVal = 1){
+	let toReturn = new BIG(initVal)
 	for(key in list){
 		toReturn = list[key](toReturn)
 	}
@@ -102,7 +102,9 @@ let logUnlocked = false
 
 //this one doesn't count
 let multipliers = {
-	"points":{"pointsBuyable": (a)=> a.multiply(pointsBuyable1Level+1) , "pointsBuyable2": (a)=> a.multiply(new BIG(2+(curBase*0.2*galaxies)).raiseTo(pointsBuyable2Level))}
+	"points":{"pointsBuyable": (a)=> a.multiply(pointsBuyable1Level+1) , "pointsBuyable2": (a)=> a.multiply(new BIG(2+(curBase*0.2*galaxies)).raiseTo(pointsBuyable2Level))},
+	"log":{},
+	"logPower":{}
 }
 
 const version = "v2.0.0"
@@ -193,7 +195,7 @@ function tick(){
 	if(logUnlocked){
 		if(points.power >= 9){
 			baseResetButton.disabled = false
-			baseResetButton.innerHTML = "Change base for "+calculateLogPoints()+" log points."
+			baseResetButton.innerHTML = "Change base for "+calculateLogPoints().string()+" log points."
 		}else{
 			baseResetButton.disabled = true
 			baseResetButton.innerHTML = "Reach 1e"+base(9,curBase)+" points to change base."
@@ -481,7 +483,7 @@ function fastEnter(){
 }
 
 function calculateLogPoints(){
-	return 0
+	return multiplyThru(multipliers['log'],multiplyThru(multipliers['logPower'],points.log(curBase)))
 }
 
 function logUpgrade(number){
@@ -497,6 +499,7 @@ function logUpgrade(number){
 	
 	switch(number){ //apply the effects of the upgrade
 		case 1:
+			multipliers['logPower']['log1'] = (a)=> a.raiseTo(curBase**0.33)
 			break
 		case 10:
 			break
