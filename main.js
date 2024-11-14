@@ -361,6 +361,8 @@ function baseUpgrade(number){
 			winMulti.hidden = false
 			multipliers['points']['free60'] = (a)=> a.multiply(60**freex60.checked)
 			break
+		case 6:
+			multipliers['points']['distance'] = (a)=> a.multiply((10-curBase)+1)
 	}
 	if(number != 5){ //BU5 does not decrease base
 		upgrade = document.getElementById("baseUpgrade"+number)
