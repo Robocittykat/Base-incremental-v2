@@ -160,6 +160,8 @@
 			</div>
 		</div>
 		<div id="logTab" hidden>
+			<button class="logButton buyable" id="branchBuyable" onclick="buyBranch()">Buy a branch to add to the log tree.<br>Cost: <span id="branchCostLabel">6</span> log points</button>
+			<button class="logButton buyable" id="logPointsBuyable" onclick="pointsBuyable(3)">Gain a free level of the second points buyable.<br>Cost: <span id="logPointsBuyableCostLabel">0</span> log points</button>
 			<div style="position: relative; z-index: 1;">
 				<svg style="position: absolute; z-index: -1; inset: 0;" width="1125" height="1050">
 					<line x1=900px y1=300px x2=600px y2=75px stroke="white" stroke-width="10" id="to11"/>
@@ -188,7 +190,7 @@
 				<button id="log1000" class="treeUpgrade" style="left: 0px; top: 675px; position: absolute;" onclick="logUpgrade(1000)">1000<br><br>The first points buyable's effect starts at +2 and increases by 1 per buy.<br><br>  </button>
 				<button id="log1001" class="treeUpgrade" style="left: 150px; top: 675px; position: absolute;" onclick="logUpgrade(1001)">1001<br><br>Double galaxies' effect.<br><br>  </button>
 				<button id="log1010" class="treeUpgrade" style="left: 300px; top: 675px; position: absolute;" onclick="logUpgrade(1010)" title="Multi is only active if upgrade is bought, but you keep purchases on respec.">1010<br><br>Unlock the log point doubler<br><br>  </button>
-				<button id="log1011" class="treeUpgrade" style="left: 450px; top: 675px; position: absolute;" onclick="logUpgrade(1011)" title="^(1+(gal*0.1))">1011<br><br>Raise log points based on galaxies.<br><br>  </button>
+				<button id="log1011" class="treeUpgrade" style="left: 450px; top: 675px; position: absolute;" onclick="logUpgrade(1011)" title="^(1+(gal*0.2))">1011<br><br>Raise log points based on galaxies.<br><br>  </button>
 				<button id="log1100" class="treeUpgrade" style="left: 600px; top: 675px; position: absolute;" onclick="logUpgrade(1100)">1100<br><br>On ipsiclicker respec, you start with more based on best base.<br><br>  </button>
 				<button id="log1101" class="treeUpgrade" style="left: 750px; top: 675px; position: absolute;" onclick="logUpgrade(1101)">1101<br><br>You can buy ipsiclickers using log points<br><br>  </button>
 				<button id="log1110" class="treeUpgrade" style="left: 900px; top: 675px; position: absolute;" onclick="logUpgrade(1110)">1110<br><br>Unlock points upgrade ipsibuyer.<br><br>  </button>

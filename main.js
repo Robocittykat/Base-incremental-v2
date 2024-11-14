@@ -97,7 +97,11 @@ let numHotkeys = 0
 let logPoints = new BIG(0,0)
 let unspentBranches = 0
 let totalBranches = 0
+let branchCost = new BIG(6)
 let logUnlocked = false
+let pointsBuyable3Cost = new BIG(0)
+let pointsBuyable3Level = 0
+
 
 
 //this one doesn't count
@@ -304,6 +308,13 @@ function pointsBuyable(number){
 			pointsBuyable2Cost = pointsBuyable2Cost.multiply(curBase**3)
 			pointsBuyable2Level ++
 			break
+		case 3:
+			if(logPoints.lt(pointsBuyable3Cost)){
+				return
+			}
+			logPoints = logPoints.subtract(pointsBuyable3Cost)
+			pointsBuyable3Cost = pointsBuyable3Cost.multiply()
+			pointsBuyable3Cost = pointsBuyable3Cost.add(3)
 	}
 }
 
