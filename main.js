@@ -77,7 +77,7 @@ let galaxies = 0
 let galaxyCost = 6
 
 //base tab
-let baseUpgrades = "12345"
+let baseUpgrades = "123456"
 let bestBase2 = 1
 
 //ipsiclicker stuff because it feels like it should be on its own
@@ -142,7 +142,7 @@ if(localStorage.getItem("version") == "v2.0.0"){
 	
 	//multipliers
 	
-	allMultis = {"pointsBuyable": (a)=> a.multiply(pointsBuyable1Level+1) , "pointsBuyable2": (a)=> a.multiply(new BIG(2+(curBase*0.2*galaxies)).raiseTo(pointsBuyable2Level)) , "BU4": (a)=> a.multiply(bestBase2) , "free60": (a)=> a.multiply(60**freex60.checked)} //all possible multipliers
+	allMultis = {"pointsBuyable": (a)=> a.multiply(pointsBuyable1Level+1) , "pointsBuyable2": (a)=> a.multiply(new BIG(2+(curBase*0.2*galaxies)).raiseTo(pointsBuyable2Level)) , "BU4": (a)=> a.multiply(bestBase2) , "free60": (a)=> a.multiply(60**freex60.checked) , "distance": (a)=> a.multiply((10-curBase)+1)} //all possible multipliers
 	currentMultis = JSON.parse(localStorage.getItem("pointsMultipliers"))
 	
 	multipliers['points'] = {}
@@ -363,6 +363,7 @@ function baseUpgrade(number){
 			break
 		case 6:
 			multipliers['points']['distance'] = (a)=> a.multiply((10-curBase)+1)
+			break
 	}
 	if(number != 5){ //BU5 does not decrease base
 		upgrade = document.getElementById("baseUpgrade"+number)
