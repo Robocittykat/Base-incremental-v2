@@ -293,8 +293,8 @@ function pointsBuyable(number){
 				return
 			}
 			points = points.subtract(pointsBuyable2Cost)
-			pointsBuyable2Cost = pointsBuyable2Cost.multiply(curBase**3)
 			pointsBuyable2Level ++
+			pointsBuyable2Cost = pointsBuyable2Cost.multiply(curBase**(3+(Math.floor(pointsBuyable2Level/50))))
 			break
 	}
 }
@@ -364,6 +364,7 @@ function baseUpgrade(number){
 		case 3:
 			galaxDiv.hidden = false
 			action1.options[3].hidden = false
+			baseResetButton.style.top = "413.5px"
 			break
 		case 4:
 			multipliers['points']['BU4'] = (a)=> a.multiply(bestBase2)
@@ -471,12 +472,13 @@ function fastEnter(){
 
 
 function devSkip(){
-	curBase = 11
+	curBase = 13
 	baseReset()
 	baseUpgrade(1)
 	baseUpgrade(2)
 	baseUpgrade(3)
 	baseUpgrade(4)
+	baseUpgrade(6)
 	curBase = 6
 	buyIpsiclicker()
 	curBase = 6
@@ -508,5 +510,5 @@ function importSave(saveText){
 
 
 
-//devSkip()
+//setTimeout(devSkip(),0)
 //localStorage.clear()

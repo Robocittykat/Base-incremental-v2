@@ -136,7 +136,7 @@
 			<button id="buyMaxPoints" onclick="pointsBuyable(0)" class="pointButton" style="position: absolute; left: 208px; width: 100px;">Buy max</button>
 			<button id="pointsBuyable1" onclick="pointsBuyable(1)" style="position: absolute; left: 208px; top: 135px; width: 100px; height: 178.5px;" class="pointButton">Increase point gain by <span id="pointsBuyableLabel">1</span>. Cost: <span id="pointsBuyableCostLabel">10</span> points</button>
 			<button id="pointsBuyable2" onclick="pointsBuyable(2)" style="position: absolute; left: 308px; top: 135px; width: 100px; height: 178.5px;" class="pointButton" hidden>Multiply point gain by <span id="pointsBuyable2Effect">2</span>. Cost: <span id="pointsBuyable2CostLabel">100</span> points</button><br>
-			<div id="galaxDiv" hidden><button id="galaxButton" onclick="galaxy()" style="width: 300px; height: 100px; font-size: 22px;" class="pointButton">Reach 2 purchases of the second buyable to galaxy.</button></div>
+			<div id="galaxDiv" hidden><button id="galaxButton" onclick="galaxy()" style="position: absolute; top: 313.5px; left: 8px; width: 300px; height: 100px; font-size: 22px;" class="pointButton">Reach 2 purchases of the second buyable to galaxy.</button></div>
 			<button id="baseResetButton" onclick="baseReset()" disabled style="position: absolute; top: 313.5px; left: 8px; width: 300px; height: 100px; font-size: 22px;" class="baseButton">Reach 1e<span id="baseResetGoal">1001</span> points to change base.</button>
 		</div>
 		<div id="baseTab" hidden>
@@ -158,7 +158,7 @@
 		</div>
 		<div id="achTab" hidden>
 			<br><br>
-			<text hidden>Warning: each row is centered around a specific section of the game. Once you finish that section, those achievments will lock.</text>
+			<text>The first three achivements of each row are attainable simply by playing the game as intended, while the other three require logic, skill, patience, etc. to aquire.</text>
 			<div style="position: relative">
 				<table class="nospacing">
 					<tr>
@@ -216,7 +216,7 @@
 						<th><div id="coverB" class="achCover tooltip" style="background-color: #00000000;"><span class="tooltiptext">Based:<br>Change base</span></div></th>
 						<th><div id="coverC" class="achCover tooltip" style="background-color: #00000000;"><span class="tooltiptext">Not a rip-off I swear:<br>Get a galaxy</span></div></th>
 						<th><div id="coverD" class="achCover tooltip" style="background-color: #00000000;"><span class="tooltiptext">Precision strike:<br>Reach exactly 60 ipsiclickers without going over</span></div></th>
-						<th><div id="coverE" class="achCover tooltip" style="background-color: #00000000;"><span class="tooltiptext">Haha infinity refrence:<br>Reach 1e10000000000 (Base 2) points</span></div></th>
+						<th><div id="coverE" class="achCover tooltip" style="background-color: #00000000;"><span class="tooltiptext">Stupid softcap messing up my exponential growth:<br>Get the second points buyable to an effect of 8</span></div></th>
 						<th><div id="coverF" class="achCover tooltip" style="background-color: #00000000;"><span class="tooltiptext">Do you enjoy pain?:<br>Enter base 2 from base 10</span></div></th>
 					</tr>
 					<tr>

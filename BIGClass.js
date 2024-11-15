@@ -1,5 +1,8 @@
 class BIG{
 	simplify(){
+		if(this.mantissa == Infinity){
+			return
+		}
 		if(this.mantissa == 0){
 			this.power = 0
 			return
@@ -16,7 +19,11 @@ class BIG{
 		
 	}
 	constructor(mantissa,power=0,base=10){
-		if(typeof mantissa == 'object'){
+		if(mantissa == Infinity || power == Infinity){
+			this.mantissa = Infinity
+			this.power = Infinity
+			this.base = base
+		}else if(typeof mantissa == 'object'){
 			this.mantissa = mantissa.mantissa
 			this.power = mantissa.power
 			this.base = mantissa.base
@@ -25,16 +32,13 @@ class BIG{
 			this.power = power
 			this.base = base
 		}
-		if(this.mantissa == Infinity){
-			this.mantissa = 0
-		}
 		this.simplify()
 		this.value = mantissa + "e" + power
 		this.type = "BIG"
 	}
-	scaleTo(pow){
-		this.mantissa /= this.base**(pow-this.power)   //10^(9-8)
-		this.power = pow
+	scaleTo(pow){ //new BIG(1,8192,2).scaleTo(27209) //this = BIG(1,8192,2), pow = 27209
+		this.mantissa /= this.base**(pow-this.power)   //10^(9-8) //this.mantissa = 1 / (2**(27209-8192)) => 1/Infinity => 0 :: this = BIG(0,8192)
+		this.power = pow //this = BIG(0,27209)
 	}
 	changeBase(newBase){ //https://www.desmos.com/calculator/aafgacq5iu for a simplified version
 		if(this.mantissa == 0){
@@ -49,12 +53,16 @@ class BIG{
 	}
 	
 	
-	add(other){
-		if(typeof other == 'object'){
-			if(other.type == "BIG"){
-				other = other.changeBase(this.base)
-				other.scaleTo(this.power)
+	add(other){ //this = BIG(1,8192,2), other = BIG(1,8191,10)
+		if(typeof other == 'object'){ //true
+			if(other.type == "BIG"){ //true
+				other = other.changeBase(this.base) //other = BIG(1.883,27209,2)
 				let toReturn = new BIG(this.mantissa,this.power,this.base)
+				if(other.gte(toReturn)){ //true
+					toReturn.scaleTo(other.power) //this = BIG(0,27209,2)
+				}else{ //false
+					other.scaleTo(toReturn.power)
+				}
 				toReturn.mantissa += other.mantissa
 				toReturn.simplify()
 				return toReturn
@@ -62,8 +70,12 @@ class BIG{
 		}
 		else if(typeof other == 'number'){
 			other = new BIG(other,0,this.base)
-			other.scaleTo(this.power)
 			let toReturn = new BIG(this.mantissa,this.power,this.base)
+			if(other.gte(toReturn)){
+				toReturn.scaleTo(other.power)
+			}else{
+				other.scaleTo(toReturn.power)
+			}
 			toReturn.mantissa += other.mantissa
 			toReturn.simplify()
 			return toReturn
@@ -73,8 +85,13 @@ class BIG{
 		if(typeof other == 'object'){
 			if(other.type == "BIG"){
 				other = other.changeBase(this.base)
-				other.scaleTo(this.power)
 				let toReturn = new BIG(this.mantissa,this.power,this.base)
+				if(other.gte(toReturn)){
+					toReturn.scaleTo(other.power)
+				}else{
+					other.scaleTo(toReturn.power)
+				}
+				
 				toReturn.mantissa -= other.mantissa
 				toReturn.simplify()
 				return toReturn
@@ -82,8 +99,13 @@ class BIG{
 		}
 		else if(typeof other == 'number'){
 			other = new BIG(other,0,this.base)
-			other.scaleTo(this.power)
 			let toReturn = new BIG(this.mantissa,this.power,this.base)
+			if(other.gte(toReturn)){
+				toReturn.scaleTo(other.power)
+			}else{
+				other.scaleTo(toReturn.power)
+			}
+			
 			toReturn.mantissa -= other.mantissa
 			toReturn.simplify()
 			return toReturn
