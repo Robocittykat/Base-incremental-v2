@@ -315,6 +315,10 @@ function galaxy(){
 	galaxies ++
 	galaxyCost += 2*galaxies
 	completeAch("C")
+	
+	if(curBase == 2 && galaxies == 15){
+		completeAch("E")
+	}
 }
 
 function baseReset(){
@@ -433,11 +437,6 @@ function ipsiclick(){
 	
 	points = points.add(multiplyThru(multipliers["points"]).multiply(prodMulti))
 	
-	if(curBase == 2){
-		if(points.gte(new BIG(1,1024,2))){
-			completeAch("E")
-		}
-	}
 }
 function respecIpsi(){
 	if(!confirm("Are you sure? Your ipsiclickers will be set back to 1 and your base will not be refunded. This is only useful if you want to try for better multipliers.")){
