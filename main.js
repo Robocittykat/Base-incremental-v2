@@ -1,4 +1,4 @@
-
+localStorage.clear()
 
 //Lookie here, I don't want any of you retrobates screaming at me for my messy code, I don't care that I'm using var instead of let, I don't care that I only sometimes use semicolons, I don't care that the game is very easily hackable. Let me live my life. (I'm gonna turn this into a news ticker, aren't I?)
 //(above is outdated)
@@ -189,7 +189,7 @@ function tick(){
 	
 	if(points.power >= 9){
 		baseResetButton.disabled = false
-		baseResetButton.innerHTML = "Change base. (" + curBase + " ➔ " + (curBase + 1) + ")"
+		baseResetButton.innerHTML = "Reset points and buyables, but change base. (" + curBase + " ➔ " + (curBase + 1) + ")"
 	}else{
 		baseResetButton.disabled = true
 		baseResetButton.innerHTML = "Reach 1e"+base(9,curBase)+" points to change base."
@@ -273,6 +273,13 @@ function gainPoints(){
 }
 function pointsBuyable(number){
 	switch(number){
+		case 0:
+			while(points.gte(pointsBuyable2Cost) && pointsBuyable2.hidden == false){
+				pointsBuyable(2)
+			}
+			while(points.gte(pointsBuyable1Cost)){
+				pointsBuyable(1)
+			}
 		case 1:
 			if(points.lt(pointsBuyable1Cost)){
 				return
@@ -293,6 +300,10 @@ function pointsBuyable(number){
 }
 
 function galaxy(){
+	if(pointsBuyable1Level < galaxyCost){
+		return
+	}
+	
 	points = new BIG(0,0,curBase)
 	
 	pointsBuyable1Cost = new BIG(1,1,curBase)
@@ -307,6 +318,9 @@ function galaxy(){
 }
 
 function baseReset(){
+	if(points.power < 9){
+		return
+	}
 	
 	if(curBase == 2){
 		let doubleLog = Math.log2(points.log())
@@ -337,6 +351,7 @@ function baseUpgrade(number){
 			pointsBuyable2.hidden = false
 			baseResetButton.style.width = "400px"
 			galaxButton.style.width = "400px"
+			buyMaxPoints.style.width = "200px"
 			action1.options[2].hidden = false
 			break
 		case 2:

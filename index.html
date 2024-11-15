@@ -133,10 +133,11 @@
 		<div id="pointsTab">
 			<h1><span id="pointsLabel">0</span> points (Base <span id="pointsTabBaseLabel">2</span>)</h1>
 			<button id="pointsClickable" onclick="gainPoints()" class="pointButton buyable" style="float: left;">+<span id="pointGainLabel">1</span> points</button>
-			<button id="pointsBuyable1" onclick="pointsBuyable(1)" style="width: 100px; height: 200px;" class="pointButton">Increase point gain by <span id="pointsBuyableLabel">1</span>. Cost: <span id="pointsBuyableCostLabel">10</span> points</button>
-			<button id="pointsBuyable2" onclick="pointsBuyable(2)" style="width: 100px; height: 200px;" class="pointButton" hidden>Multiply point gain by <span id="pointsBuyable2Effect">2</span>. Cost: <span id="pointsBuyable2CostLabel">100</span> points</button><br>
+			<button id="buyMaxPoints" onclick="pointsBuyable(0)" class="pointButton" style="position: absolute; left: 208px; width: 100px;">Buy max</button>
+			<button id="pointsBuyable1" onclick="pointsBuyable(1)" style="position: absolute; left: 208px; top: 135px; width: 100px; height: 178.5px;" class="pointButton">Increase point gain by <span id="pointsBuyableLabel">1</span>. Cost: <span id="pointsBuyableCostLabel">10</span> points</button>
+			<button id="pointsBuyable2" onclick="pointsBuyable(2)" style="position: absolute; left: 308px; top: 135px; width: 100px; height: 178.5px;" class="pointButton" hidden>Multiply point gain by <span id="pointsBuyable2Effect">2</span>. Cost: <span id="pointsBuyable2CostLabel">100</span> points</button><br>
 			<div id="galaxDiv" hidden><button id="galaxButton" onclick="galaxy()" style="width: 300px; height: 100px; font-size: 22px;" class="pointButton">Reach 2 purchases of the second buyable to galaxy.</button></div>
-			<button id="baseResetButton" onclick="baseReset()" disabled style="width: 300px; height: 100px; font-size: 22px;" class="baseButton">Reach 1e<span id="baseResetGoal">1001</span> points to change base.</button>
+			<button id="baseResetButton" onclick="baseReset()" disabled style="position: absolute; top: 313.5px; left: 8px; width: 300px; height: 100px; font-size: 22px;" class="baseButton">Reach 1e<span id="baseResetGoal">1001</span> points to change base.</button>
 		</div>
 		<div id="baseTab" hidden>
 			<h1>You are in base <span id="baseLabel">2</span>.</h1>
@@ -145,12 +146,12 @@
 			<button id="baseUpgrade2" class="baseButton upgrade" onclick="baseUpgrade(2)" cost="3">Unlock ipsiclickers (and gain 1). Cost: 3 base</button>
 			<button id="baseUpgrade6" class="baseButton upgrade" onclick="baseUpgrade(6)" cost="4">Multiply point gain based on your distance to base 10. Cost: 4 base</button>
 			<button id="baseUpgrade3" class="baseButton upgrade" onclick="baseUpgrade(3)" cost="5">Unlock galaxies. Cost: 5 base</button>
-			<button id="baseUpgrade4" class="baseButton upgrade" onclick="baseUpgrade(4)" cost="7">Multiply point gain based on your best points on base 2 reset. Cost: 7 base</button>
+			<button id="baseUpgrade4" class="baseButton upgrade" onclick="baseUpgrade(4)" cost="7">Multiply point gain based on your best points on base 2 reset. Also unlock buy max. Cost: 7 base</button>
 			<button id="baseUpgrade5" class="logButton upgrade" onclick="baseUpgrade(5)" cost="10">Beat the game. Req: 10 base</button>
 			
 			<div id="ipsiDiv" hidden>
 				<h1>You have <span id="ipsiLabel">1</span> ipsiclickers.</h1>
-				<text>Ipsiclickers are hardcapped at 60.</text><br>
+				<text>The higher you base when you buy ipsiclickers, the better the multi you will recieve. Ipsiclickers are hardcapped at 60.</text><br>
 				<button id="buyIpsi" class="baseButton buyable" onclick="buyIpsiclicker()">x<span id="ipsiMultiLabel">2</span> to ipsiclickers on purchase. Cost: <span id="ipsiCostLabel">4</span> base</button><br>
 				<button id="respecIpsi" class="baseButton" onclick="respecIpsi()">respec</button>
 			</div>
