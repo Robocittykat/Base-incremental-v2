@@ -142,7 +142,7 @@ if(localStorage.getItem("version") == "v2.0.0"){
 	
 	//multipliers
 	
-	allMultis = {"pointsBuyable": (a)=> a.multiply(pointsBuyable1Level+1) , "pointsBuyable2": (a)=> a.multiply(new BIG(2+(curBase*0.2*galaxies)).raiseTo(pointsBuyable2Level)) , "BU4": (a)=> a.multiply(bestBase2) , "free60": (a)=> a.multiply(60**freex60.checked) , "distance": (a)=> a.multiply((10-curBase)+1)} //all possible multipliers
+	allMultis = {"pointsBuyable": (a)=> a.multiply(pointsBuyable1Level+1) , "pointsBuyable2": (a)=> a.multiply(new BIG(2+(curBase*0.2*galaxies)).raiseTo(pointsBuyable2Level)) , "BU4": (a)=> a.multiply(bestBase2) , "free60": (a)=> a.multiply(60**freex60.checked) , "distance": (a)=> a.multiply(Math.abs(10-curBase)+1)} //all possible multipliers
 	currentMultis = JSON.parse(localStorage.getItem("pointsMultipliers"))
 	
 	multipliers['points'] = {}
