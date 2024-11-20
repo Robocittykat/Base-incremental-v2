@@ -330,10 +330,14 @@ function baseReset(){
 		let doubleLog = Math.log2(points.log())
 		bestBase2 = Math.max(doubleLog,bestBase2)
 	}
+
 	
 	curBase ++
 	if(curBase == 3){
 		completeAch("B")
+	}
+	if(curBase == 9){
+		completeAch("F")
 	}
 	
 	points = new BIG(0,0,curBase)
@@ -352,6 +356,7 @@ function baseUpgrade(number){
 	switch(number){
 		case 1:
 			pointsBuyable1.style.float = "left"
+			pointsBuyable1.style.left = "-200px"
 			pointsBuyable2.hidden = false
 			baseResetButton.style.width = "400px"
 			galaxButton.style.width = "400px"
@@ -450,10 +455,6 @@ function respecIpsi(){
 function fastEnter(){
 	if(!confirm("Are you sure? Your base will be set back to 2, and you will lose all of your points and buyables. This is only useful if you want to grind points in base 2 for base upgrade 4.")){
 		return
-	}
-	
-	if(curBase >= 10){
-		completeAch("F")
 	}
 	
 	curBase = 2
