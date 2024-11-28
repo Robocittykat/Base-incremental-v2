@@ -65,6 +65,17 @@ function multiplyThru(list){
 	return toReturn
 }
 
+function pluralize(amount,unit,end="s",removeLast=false){ //amount is how many, unit is the type, end is what to add onto the end if it is plural, removeLast if for words like "baby" which becomes "babies"
+	if(amount != 1){
+		if(removeLast){
+			return amount+" "+unit.slice(0,-1)+end
+		}else{
+			return amount+" "+unit+end
+		}
+	}else{
+		return amount+" "+unit
+	}
+}
 
 //points tab (and curBase because why not)
 let points = new BIG(0,1,2)
@@ -94,7 +105,7 @@ let numHotkeys = 0
 
 
 //new variables (haven't been added to localStorage. There should be none here at the time of release, please notify the developer if you happen to see any.)
-
+// baseUpgrades, multipliers
 
 
 //this one doesn't count
@@ -102,7 +113,7 @@ let multipliers = {
 	"points":{"pointsBuyable": (a)=> a.multiply(pointsBuyable1Level+1) , "pointsBuyable2": (a)=> a.multiply(new BIG(2+(curBase*0.2*galaxies)).raiseTo(pointsBuyable2Level))}
 }
 
-const version = "v2.0.0"
+const version = "v2.0.2" //the update that added buy max or smth idk
 
 if(localStorage.getItem("version") == "v2.0.0"){
 	
@@ -142,7 +153,7 @@ if(localStorage.getItem("version") == "v2.0.0"){
 	
 	//multipliers
 	
-	allMultis = {"pointsBuyable": (a)=> a.multiply(pointsBuyable1Level+1) , "pointsBuyable2": (a)=> a.multiply(new BIG(2+(curBase*0.2*galaxies)).raiseTo(pointsBuyable2Level)) , "BU4": (a)=> a.multiply(bestBase2) , "free60": (a)=> a.multiply(60**freex60.checked) , "distance": (a)=> a.multiply(Math.abs(10-curBase)+1)} //all possible multipliers
+	allMultis = {"pointsBuyable": (a)=> a.multiply(pointsBuyable1Level+1) , "pointsBuyable2": (a)=> a.multiply(new BIG(2+(curBase*0.2*galaxies)).raiseTo(pointsBuyable2Level)) , "BU4": (a)=> a.multiply(bestBase2) , "free60": (a)=> a.multiply(60**freex60.checked) , } //all possible multipliers
 	currentMultis = JSON.parse(localStorage.getItem("pointsMultipliers"))
 	
 	multipliers['points'] = {}
@@ -150,18 +161,14 @@ if(localStorage.getItem("version") == "v2.0.0"){
 		multipliers['points'][i] = allMultis[i]
 	}
 	
-	
-	
-	
-	
 }
 
 
 
 function tick(){
 	//display various variables
-	pointsLabel.innerHTML = base(points,curBase,false)
-	pointGainLabel.innerHTML = base(multiplyThru(multipliers['points']),curBase)
+	pointsLabel.innerHTML = pluralize(base(points,curBase,false),"point")
+	pointGainLabel.innerHTML = pluralize(base(multiplyThru(multipliers['points']),curBase),"point")
 	
 	pointsBuyableCostLabel.innerHTML = base(pointsBuyable1Cost,curBase)
 	pointsBuyable2CostLabel.innerHTML = base(pointsBuyable2Cost,curBase)
@@ -170,7 +177,7 @@ function tick(){
 	pointsTabBaseLabel.innerHTML = curBase
 	baseLabel.innerHTML = curBase
 	
-	ipsiLabel.innerHTML = ipsiAmount.string()
+	ipsiLabel.innerHTML = pluralize(ipsiAmount.string(),"ipsiclicker")
 	ipsiMultiLabel.innerHTML = Math.max(curBase-ipsiCost,2)
 	ipsiCostLabel.innerHTML = ipsiCost+2
 	
@@ -364,9 +371,9 @@ function baseUpgrade(number){
 			action1.options[2].hidden = false
 			break
 		case 2:
-			ipsiDiv.hidden = false
 			ipsiAmount = new BIG(1,0)
 			reloadIpsi()
+			ipsiDiv.hidden = false
 			action1.options[5].hidden = false
 			action1.options[6].hidden = false
 			break
