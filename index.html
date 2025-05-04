@@ -7,6 +7,8 @@
 		
 		<!-- classes -->
 		<script src="BIGClass.js"></script>
+		<script src="upgradeClass.js"></script>
+		<script src="buyableClass.js"></script>
 		
 		<!-- css -->
 		<style>
@@ -135,11 +137,13 @@
 			<div style="position: static; height: 200px;">
 				<button id="pointsClickable" onclick="gainPoints()" class="pointButton buyable" style="float: left; position: relative;">+<span id="pointGainLabel">1 points</span></button>
 				<button id="buyMaxPoints" onclick="pointsBuyable(0)" class="pointButton" style="position: relative; width: 100px; height: 22px; float: left;">Buy max</button>
-				<button id="pointsBuyable1" onclick="pointsBuyable(1)" style="position: relative; left: -100px; top: 22px; width: 100px; height: 178px;" class="pointButton">Increase point gain by <span id="pointsBuyableLabel">1</span>. Cost: <span id="pointsBuyableCostLabel">10</span> points</button>
-				<button id="pointsBuyable2" onclick="pointsBuyable(2)" style="position: relative; left: -200px; top: 22px; width: 100px; height: 178px;" class="pointButton" hidden>Multiply point gain by <span id="pointsBuyable2Effect">2</span>. Cost: <span id="pointsBuyable2CostLabel">100</span> points</button>
+				<button id="pointsBuyable1Button" onclick="pointsBuyable(1)" style="position: relative; left: -100px; top: 22px; width: 100px; height: 178px;" class="pointButton">Increase point gain by <span id="pointsBuyableLabel">1</span>. Cost: <span id="pointsBuyableCostLabel">10</span> points<br>Level: <span id="pb1LevelLabel">0</span></button>
+				<button id="pointsBuyable2Button" onclick="pointsBuyable(2)" style="position: relative; left: -200px; top: 22px; width: 100px; height: 178px;" class="pointButton" hidden>Multiply point gain by <span id="pointsBuyable2Effect">2</span>. Cost: <span id="pointsBuyable2CostLabel">100</span> points<br>Level: <span id="pb2LevelLabel">0</span></button>
 			</div>
 			<div id="galaxDiv" hidden><button id="galaxButton" onclick="galaxy()" style="width: 300px; height: 100px; font-size: 22px;" class="pointButton">Reach 2 purchases of the second buyable to galaxy.</button></div>
-			<button id="baseResetButton" onclick="baseReset()" disabled style="width: 300px; height: 100px; font-size: 22px;" class="baseButton">Reach 1e<span id="baseResetGoal">1001</span> points to change base.</button>
+			<button id="baseResetButton" onclick="baseReset()" disabled style="width: 300px; height: 100px; font-size: 22px;" class="baseButton">Reach <span id="baseResetGoal">1001</span> points to change base.</button>
+			<br><text>Current BRR (base reset req.) value: <span id="brrBase">2</span><sup id="brrPow">8</sup></text><br>
+			<text id="pointsTabExtraInfo" hidden>Every 5 bases, the BRR power increases by 1</text>
 			
 		</div>
 		<div id="baseTab" hidden>
@@ -147,9 +151,9 @@
 			<button id="fastEnterButton" class="baseButton" onclick="fastEnter()" hidden>Enter base 2</button><br><br>
 			<button id="baseUpgrade1" class="baseButton upgrade" onclick="baseUpgrade(1)" cost="3">Unlock a second point buyable, doubling point gain per purchase. Cost: 3 base</button>
 			<button id="baseUpgrade2" class="baseButton upgrade" onclick="baseUpgrade(2)" cost="3">Unlock ipsiclickers (and gain 1). Cost: 3 base</button>
-			<button id="baseUpgrade6" class="baseButton upgrade" onclick="baseUpgrade(6)" cost="4">Multiply point gain based on your distance to base 10. Cost: 4 base</button>
+			<button id="baseUpgrade6" class="baseButton upgrade" onclick="baseUpgrade(6)" cost="4" hidden>Multiply point gain based on your distance to base 10. Cost: 4 base</button>
 			<button id="baseUpgrade3" class="baseButton upgrade" onclick="baseUpgrade(3)" cost="5">Unlock galaxies. Cost: 5 base</button>
-			<button id="baseUpgrade4" class="baseButton upgrade" onclick="baseUpgrade(4)" cost="7">Multiply point gain based on your best points on base 2 reset. Cost: 7 base</button>
+			<button id="baseUpgrade4" class="baseButton upgrade" onclick="baseUpgrade(4)" cost="7">Multiply point gain based on your best pb2 effect on base 2 reset. Cost: 7 base</button>
 			<button id="baseUpgrade5" class="logButton upgrade" onclick="baseUpgrade(5)" cost="10">Beat the game. Req: 10 base</button>
 			
 			<div id="ipsiDiv" hidden>
@@ -162,7 +166,7 @@
 		</div>
 		<div id="achTab" hidden>
 			<br><br>
-			<text>The first three achivements of each row are attainable simply by playing the game as intended, while the other three require logic, skill, patience, etc. to aquire.</text>
+			<text>The first three achievements of each row are attainable simply by playing the game as intended, while the other three require logic, skill, patience, etc. to aquire.</text>
 			<div style="position: relative">
 				<table class="nospacing">
 					<tr>
@@ -221,7 +225,7 @@
 						<th><div id="coverC" class="achCover tooltip" style="background-color: #00000000;"><span class="tooltiptext">Not a rip-off I swear:<br>Get a galaxy.</span></div></th>
 						<th><div id="coverD" class="achCover tooltip" style="background-color: #00000000;"><span class="tooltiptext">Precision strike:<br>Reach exactly 60 ipsiclickers without going over.</span></div></th>
 						<th><div id="coverE" class="achCover tooltip" style="background-color: #00000000;"><span class="tooltiptext">Stupid softcap messing up my exponential growth:<br>Get the second points buyable to an effect of 8.</span></div></th>
-						<th><div id="coverF" class="achCover tooltip" style="background-color: #00000000;"><span class="tooltiptext">A hint of normalcy:<br>Enter base 10.</span></div></th>
+						<th><div id="coverF" class="achCover tooltip" style="background-color: #00000000;"><span class="tooltiptext">This is America, we use base 10:<br>Reach base 10.</span></div></th>
 					</tr>
 					<tr>
 						<th></th>
@@ -264,7 +268,7 @@
 					<th></th>
 				</tr>
 				</table>
-				<div style="left: 700px; top: 0; position: absolute;">
+				<div style="left: 700px; top: 0; position: absolute;" hidden>
 					<text>Progress to next reward:</text>
 					<progress id="achProg" value="0" max="6"></progress>
 					<text>You have <span id="hotkeyAmt">0</span> hotkeys</text><br>
@@ -311,7 +315,7 @@
 						}
 						
 					</script>
-					<p>Every 6 achievments completed will earn you a new hotkey slot. Hotkeys can be used to trigger buttons just by pressing keys on your keyboard. You can set hotkeys to many different actions, such as adding points, buying buyables, resetting, etc. (You can only set it to buttons you have unlocked, of course). Hotkeys have three different modes: Single, repeat, or rapid-fire. Single will only activate when you start pressing the button, repeat will act like how holding a key normally works (activates once, waits a short delay, and then reactivates quickly), and rapid-fire will activate every tick that the key is held down. Certain hotkey functions will force you to use a specific mode, such as changing base requiring you to use single.</p>
+					<p>Every 6 achievements completed will earn you a new hotkey slot. Hotkeys can be used to trigger buttons just by pressing keys on your keyboard. You can set hotkeys to many different actions, such as adding points, buying buyables, resetting, etc. (You can only set it to buttons you have unlocked, of course). Hotkeys have three different modes: Single, repeat, or rapid-fire. Single will only activate when you start pressing the button, repeat will act like how holding a key normally works (activates once, waits a short delay, and then reactivates quickly), and rapid-fire will activate every tick that the key is held down. Certain hotkey functions will force you to use a specific mode, such as changing base requiring you to use single.</p>
 					<p>(I will add mobile hotkey support in the next update, it felt unnecesarry to add it for such a small feature right now)</p>
 				</div>
 			</div>

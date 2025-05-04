@@ -10,7 +10,7 @@ function getMode(number){
 
 
 let holdingKeys = []
-let actions = {0:pointsClickable,1:pointsBuyable1,2:pointsBuyable2,3:galaxButton,4:baseResetButton,5:buyIpsi,6:respecIpsi,7:fastEnterButton}
+let actions = {0:pointsClickable,1:pointsBuyable1Button,2:pointsBuyable2Button,3:galaxButton,4:baseResetButton,5:buyIpsi,6:respecIpsi,7:fastEnterButton}
 
 holdingKeys.contains = function(item){
 	if(holdingKeys.indexOf(item) >= 0){
@@ -22,7 +22,7 @@ holdingKeys.contains = function(item){
 
 
 document.onkeydown = function(key){
-	if(key.which >= 49 && key.which < (49 + numHotkeys)){
+	if(key.which >= 49 && key.which < (49 + player.numHotkeys)){
 		if(getMode(key.which - 48) == "0"){
 			if(!holdingKeys.contains(key.which - 48)){
 				if(actions[getAction(key.which - 48)].disabled == false && actions[getAction(key.which-48)].hidden == false){
